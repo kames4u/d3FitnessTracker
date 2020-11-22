@@ -133,8 +133,7 @@ const update = (data) => {
 
     const yAxis = d3
         .axisLeft(y)
-        .ticks(4)
-        .tickFormat((d) => d + 'm');
+        .ticks(4);
 
     // call axes
     xAxisGroup.call(xAxis);
