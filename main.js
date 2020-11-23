@@ -3,7 +3,7 @@ const chartbtns = document.querySelectorAll('.chartBtn');
 const form = document.querySelector('form');
 const formAct = document.querySelector('form span');
 const distinput = document.querySelector('.distIP');
-const caloriesinput = document.querySelector('.distIP');
+const caloriesinput = document.querySelector('.caloriesIP');
 const error = document.querySelector('.error');
 const sucess = document.querySelector('.sucess');
 
