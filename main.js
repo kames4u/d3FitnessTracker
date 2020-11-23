@@ -24,10 +24,13 @@ actbtns.forEach(btn => {
 form.addEventListener('submit', e => {
     e.preventDefault()
     const distance = parseInt(distinput.value);
-    if(distance){
+    const calories = parseInt(caloriesinput.value);
+
+    if(distance && calories){
       db.collection('workout').add({
-        distance, 
         activity,
+        distance,
+        calories,
         date: new Date().toString()
       }).then(() => {
         sucess.textContent = 'Entry saved'

@@ -30,15 +30,15 @@ const face = svgBMI.append('g')
 const mouth = svgBMI.append('g')
     .attr('transform', `translate(340, 200)`);
 
-// mouth
-//     .append('path')
-//     .attr('d', d3.arc()({
-//         innerRadius: 75,
-//         outerRadius: 90,
-//         startAngle: Math.PI / .85,
-//         endAngle: Math.PI * 3 / 4
-//     }))
-//     .style("fill", "white");
+mouth
+    .append('path')
+    .attr('d', d3.arc()({
+        innerRadius: 75,
+        outerRadius: 90,
+        startAngle: Math.PI / .85,
+        endAngle: Math.PI * 3 / 4
+    }))
+    .style("fill", "white");
 
 // face
 //     .append('rect')
@@ -68,9 +68,9 @@ const mouth = svgBMI.append('g')
 //     .style("fill", "green")
 //     .style("fill-opacity", ".2");
 
-// svgBMI.append("circle")
-//     .attr("cx", 350)
-//     .attr("cy", 200)
-//     .attr("r", 130)
-//     .style("fill", "brown")
-//     .style("fill-opacity", ".2");
+svgBMI.append("circle")
+    .attr("cx", 350)
+    .attr("cy", 200)
+    .attr("r", 130)
+    .style("fill", "brown")
+    .style("fill-opacity", ".2");
