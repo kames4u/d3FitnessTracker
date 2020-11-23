@@ -1,18 +1,20 @@
-const btns = document.querySelectorAll('button');
+const actbtns = document.querySelectorAll('.activityBtn');
+const chartbtns = document.querySelectorAll('.chartBtn');
 const form = document.querySelector('form');
 const formAct = document.querySelector('form span');
-const input = document.querySelector('input');
+const distinput = document.querySelector('.distIP');
+const caloriesinput = document.querySelector('.distIP');
 const error = document.querySelector('.error');
 const sucess = document.querySelector('.sucess');
 
 var activity = 'cycling';
 
-btns.forEach(btn => {
+actbtns.forEach(btn => {
   btn.addEventListener('click', e => {
     activity = e.target.dataset.activity;
-    btns.forEach(btn => btn.classList.remove('active'));
+    actbtns.forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
-    input.setAttribute('id', activity);
+    distinput.setAttribute('id', activity);
     formAct.textContent = activity;
     update(data)
   });
@@ -21,7 +23,7 @@ btns.forEach(btn => {
 // form submit
 form.addEventListener('submit', e => {
     e.preventDefault()
-    const distance = parseInt(input.value);
+    const distance = parseInt(distinput.value);
     if(distance){
       db.collection('workout').add({
         distance, 
@@ -30,7 +32,7 @@ form.addEventListener('submit', e => {
       }).then(() => {
         sucess.textContent = 'Entry saved'
         error.textContent = '';
-        input.value = '';
+        distinput.value = '';
       }).catch(err => console.log(err));
     } else {
       error.textContent = 'Please enter a valid distance'

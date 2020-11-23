@@ -15,6 +15,18 @@ button {
 button.active {
   background: #da693d !important;
 }
+button.Gactive {
+    background: #da693d !important;
+}
+span.calories {
+    color: #2dd2e7 !important;
+}
+span.height {
+    color: #bde085 !important;
+}
+span.weight {
+    color: #bde085 !important;
+}
 form span {
   color: #df7b53 !important;
 }

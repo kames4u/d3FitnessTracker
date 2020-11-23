@@ -29,25 +29,56 @@
     </div>
 
     <div class="container section">
+        
+        <br>
+
         <div class="row">
-            <div class="col s12 m6 l5">
-                <button class="active" data-activity="cycling"><i class="fas fa-biking"></i>  Cycling</button>
-                <button data-activity="running"><i class="fas fa-running"></i> Running</button>
-                <button data-activity="swimming"><i class="fas fa-swimmer"></i> Swimming</button>
-                <button data-activity="walking"><i class="fas fa-walking"></i> Walking</button>
-                <button data-activity="sleeping"><i class="fas fa-bed"></i> Sleeping</button>
+            <div class="col s12 m4 pull-m2">
+                <button class="active activityBtn" data-activity="cycling"><i class="fas fa-biking"></i>  Cycling</button>
+                <button class="activityBtn" data-activity="running"><i class="fas fa-running"></i> Running</button>
+                <button class="activityBtn" data-activity="swimming"><i class="fas fa-swimmer"></i> Swimming</button>
+                <button class="activityBtn" data-activity="walking"><i class="fas fa-walking"></i> Walking</button>
+                <button class="activityBtn" data-activity="sleeping"><i class="fas fa-bed"></i> Sleeping</button>
             </div>
-            <div class="col s12 m6 push-m1 l6 push-l1">
-                <div class="workout"></div>
+            <form class="col s12 m4 pull-m1">
+                <p class="flow-text white-text ">How much <span>cycling</span> done today?</p>
+                <input class="grey-text distIP" type="text" id="cycling" placeholder="Feed data and hit enter" />
+                <p class="center red-text error text-darken-5"></p>
+                <p class="center green-text sucess text-darken-5"></p>
+
+                <p class="flow-text white-text ">How much <span class="calories">calories</span> burned?</p>
+                <input class="grey-text caloriesIP" type="text" id="calories" placeholder="Feed data and hit enter" />
+            </form>
+            <div class="col s12 m4 pull-m1">
+                <div class="row">
+                    <div class="workout"></div>
+                </div>                
+                <div class="row">
+                    <div class="col s4 offset-s4">
+                        <button class="Gactive chartBtn" data-activity="line">Line</button>
+                    </div>
+                    <div class="col s4">
+                        <button class="chartBtn" data-activity="bar">Bar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav z-depth-1">
+            <div class="section center">
+                <h6 class="white-text">BMI</h6>
             </div>
         </div>
         <div class="row">
-            <form class="col s12 m8 push-m2">
-                <p class="flow-text white-text center">How much <span>cycling</span> have you done today?</p>
-                <input class="grey-text" type="text" id="cycling" placeholder="Feed data and hit enter" />
-                <p class="center red-text error text-darken-5"></p>
-                <p class="center green-text sucess text-darken-5"></p>
-            </form>
+            <div class="col s12 m6 pull-m1">
+                <div class="bmi"></div>
+            </div>
+            <div class="col s12 m4 offset-s1">
+                <p class="flow-text white-text ">Your <span class="height">height</span>  </p>
+                <input class="grey-text distIP" type="text" id="height" placeholder="Feed height and hit enter" />
+
+                <p class="flow-text white-text ">Your <span class="weight">weight</span> </p>
+                <input class="grey-text caloriesIP" type="text" id="weight" placeholder="Feed weight and hit enter" />      
+            </div>
         </div>
     </div>
 
@@ -79,6 +110,7 @@
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="main.js"></script>
     <script src="workout.js"></script>
+    <script src="bmi.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
