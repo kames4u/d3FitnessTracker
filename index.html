@@ -29,12 +29,13 @@
     </div>
 
     <div class="container section">
-        
+
         <br>
 
         <div class="row">
             <div class="col s12 m4 pull-m2">
-                <button class="active activityBtn" data-activity="cycling"><i class="fas fa-biking"></i>  Cycling</button>
+                <button class="active activityBtn" data-activity="cycling"><i class="fas fa-biking"></i>
+                    Cycling</button>
                 <button class="activityBtn" data-activity="running"><i class="fas fa-running"></i> Running</button>
                 <button class="activityBtn" data-activity="swimming"><i class="fas fa-swimmer"></i> Swimming</button>
                 <button class="activityBtn" data-activity="walking"><i class="fas fa-walking"></i> Walking</button>
@@ -48,11 +49,20 @@
 
                 <p class="flow-text white-text ">How much <span class="calories">calories</span> burned?</p>
                 <input class="grey-text caloriesIP" type="text" id="calories" placeholder="Feed data and hit enter." />
+                <div class="row">
+                    <div class="col s4 offset-s4">
+                        <br>
+
+                        <button class="btn waves-effect waves-light" type="submit" name="action">
+                            <i class="far fa-share-square"></i>
+                        </button>
+                    </div>
+                </div>
             </form>
             <div class="col s12 m4 pull-m1">
                 <div class="row">
                     <div class="workout"></div>
-                </div>                
+                </div>
                 <div class="row">
                     <div class="col s4 offset-s4">
                         <button class="Gactive chartBtn" data-activity="line">Line</button>
@@ -73,11 +83,11 @@
                 <div class="bmi"></div>
             </div>
             <div class="col s12 m4 offset-s1">
-                <p class="flow-text white-text ">Your <span class="height">height</span>  </p>
+                <p class="flow-text white-text ">Your <span class="height">height</span> </p>
                 <input class="grey-text distIP" type="text" id="height" placeholder="Feed height and hit enter" />
 
                 <p class="flow-text white-text ">Your <span class="weight">weight</span> </p>
-                <input class="grey-text caloriesIP" type="text" id="weight" placeholder="Feed weight and hit enter" />      
+                <input class="grey-text caloriesIP" type="text" id="weight" placeholder="Feed weight and hit enter" />
             </div>
         </div>
     </div>
