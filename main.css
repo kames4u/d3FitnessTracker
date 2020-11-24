@@ -12,6 +12,10 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+p {
+  font-weight: 200;
+}
+
 button.active {
   background: #da693d !important;
 }
