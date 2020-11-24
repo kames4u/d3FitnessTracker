@@ -35,11 +35,12 @@ workoutform.addEventListener('submit', e => {
   const calories = parseInt(caloriesinput.value);
 
   if (distance && calories) {
-    db.collection('workout').add({
+
+    db.collection('workout').doc(new Date().toISOString().slice(0,10).toString()).set({
       activity,
       distance,
       calories,
-      date: new Date().toString()
+      date: new Date(new Date().setHours(23,59,0,0)).toString()
     }).then(() => {
       workoutsucess.textContent = 'Entry saved'
       activityerror.textContent = '';

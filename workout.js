@@ -28,33 +28,54 @@ const yAxisGroup = graphWorkout.append('g')
     .attr('class', 'y-axis');
 
 // d3 line path generator
-const line = d3.line()
+const dline = d3.line()
     //.curve(d3.curveCardinal)
     .x(function (d) { return x(new Date(d.date)) })
     .y(function (d) { return y(d.distance) });
 
+const cline = d3.line()
+    //.curve(d3.curveCardinal)
+    .x(function (d) { return x(new Date(d.date)) })
+    .y(function (d) { return y(d.calories) });
 
 // line path element
-const path = graphWorkout.append('path');
-
+const dlPath = graphWorkout.append('path');
+const clPath = graphWorkout.append('path');
 
 // create dotted line group and append to graph
-const dottedLines = graphWorkout.append('g')
+const dottedDLines = graphWorkout.append('g')
   .attr('class', 'lines')
   .style('opacity', 0);
 
 // create x dotted line and append to dotted line group
-const xDottedLine = dottedLines.append('line')
+const xDottedDLine = dottedDLines.append('line')
   .attr('stroke', '#aaa')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
 // create y dotted line and append to dotted line group
-const yDottedLine = dottedLines.append('line')
+const yDottedDLine = dottedDLines.append('line')
   .attr('stroke', '#aaa')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
+
+// create dotted line group and append to graph
+const dottedCLines = graphWorkout.append('g')
+  .attr('class', 'lines')
+  .style('opacity', 0);
+
+// create x dotted line and append to dotted line group
+const xDottedCLine = dottedCLines.append('line')
+  .attr('stroke', '#aaa')
+  .attr('stroke-width', 1)
+  .attr('stroke-dasharray', 4);
+
+// create y dotted line and append to dotted line group
+const yDottedCLine = dottedCLines.append('line')
+  .attr('stroke', '#aaa')
+  .attr('stroke-width', 1)
+  .attr('stroke-dasharray', 4);
 
 const update = (data) => {
 
@@ -68,33 +89,61 @@ const update = (data) => {
     y.domain([0, d3.max(data, (d) => d.distance)]);
 
     // update path data
-    path.data([data])
+    dlPath.data([data])
         .attr('fill', 'none')
         .attr('stroke', '#da693d')
         .attr('stroke-width', '2')
-        .attr('d', line);
+        .attr('d', dline);
+
+    // update path data
+    clPath.data([data])
+    .attr('fill', 'none')
+    .attr('stroke', '#2dd2e7')
+    .attr('stroke-width', '2')
+    .attr('d', cline);
 
     // create circles for points
-    const circles = graphWorkout.selectAll('circle').data(data);
+    const dCircles = graphWorkout.selectAll('circle').data(data);
+    const cRect = graphWorkout.selectAll('rect').data(data);
 
     // remove unwanted points
-    circles.exit().remove();
+    dCircles.exit().remove();
+    cRect.exit().remove();
 
     // update current points
-    circles
+    dCircles
         .attr('r', '5')
         .attr('cx', (d) => x(new Date(d.date)))
         .attr('cy', (d) => y(d.distance))
         .attr('fill', '#ccc');
 
     // add new points
-    circles
+    dCircles
         .enter()
         .append('circle')
         .attr('r', '4')
         .attr('cx', (d) => x(new Date(d.date)))
         .attr('cy', (d) => y(d.distance))
         .attr('fill', '#ccc');
+
+    // update current points
+    cRect
+        .attr('width', '10')
+        .attr('height', '10')
+        .attr('x', (d) => x(new Date(d.date)))
+        .attr('y', (d) => y(d.calories))
+        .attr('fill', '#ccc');
+
+    // add new points
+    cRect
+        .enter()
+        .append('rect')
+        .attr('width', '10')
+        .attr('height', '10')
+        .attr('x', (d) => x(new Date(d.date)))
+        .attr('y', (d) => y(d.calories))
+        .attr('fill', '#ccc');
+
 
     // add event listeners to circle (and show dotted lines)
  // add event listeners to circle (and show dotted lines)
@@ -105,19 +154,19 @@ const update = (data) => {
         .attr('r', 8)
         .attr('fill', '#fff');
       // set x dotted line coords (x1,x2,y1,y2)
-      xDottedLine
+      xDottedDLine
         .attr('x1', x(new Date(d.date)))
         .attr('x2', x(new Date(d.date)))
         .attr('y1', graphHeight)
         .attr('y2', y(d.distance));
       // set y dotted line coords (x1,x2,y1,y2)
-      yDottedLine
+      yDottedDLine
         .attr('x1', 0)
         .attr('x2', x(new Date(d.date)))
         .attr('y1', y(d.distance))
         .attr('y2', y(d.distance));
       // show the dotted line group (opacity)
-      dottedLines.style('opacity', 1);
+      dottedDLines.style('opacity', 1);
     })
     .on('mouseleave', (d,i,n) => {
       d3.select(n[i])
@@ -125,7 +174,7 @@ const update = (data) => {
         .attr('r', 4)
         .attr('fill', '#fff');
       // hide the dotted line group (opacity)
-      dottedLines.style('opacity', 0)
+      dottedDLines.style('opacity', 0)
     });
 
     // create axes
