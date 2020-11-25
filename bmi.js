@@ -5,6 +5,7 @@ var svgBMI = d3.select(".bmi").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+
 svgBMI.append("circle")
     .attr("cx", 350)
     .attr("cy", 200)
@@ -76,8 +77,39 @@ svgBMI.append("circle")
     .style("fill-opacity", ".2");
 
 const updatebmi = (bmidata) => {
+    console.log(bmidata[0]);
 
-    console.log(bmidata);
+    height = bmidata[0].height;
+    weight = bmidata[0].weight;
+
+    console.log("Height: " + height);
+    console.log("Weight: " + weight);
+
+    // Obese => 30
+    // Overweight = 25.0 to 29.9
+    // Normal weight = 18.5 to 24.9
+    // Underweight < 18.5
+
+    //Formula: weight(pounds) * 703 and divide by height (inches) squared.
+
+    bmiVal = (weight * 703) / (height * height);
+
+    console.log("bmi: " + bmiVal);
+
+    bmiStat = "Normal"
+
+    if (bmiVal < 18.5){
+        bmiStat = "Underweight"
+    }else if (bmiVal <= 24.9 && bmiVal >= 18.5){
+        bmiStat = "Normal"
+    }else if (bmiVal <= 29.9 && bmiVal >= 25){
+        bmiStat = "Overweight"
+    }else if(bmiVal >= 30){
+        bmiStat = "Obese"
+    }
+
+    console.log(bmiStat);
+
 };
 
 var bmidata = [];
