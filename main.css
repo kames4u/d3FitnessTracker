@@ -25,10 +25,10 @@ button.Gactive {
 span.calories {
     color: #2dd2e7 !important;
 }
-span.height {
+/* span.height {
     color: #bde085 !important;
-}
-span.weight {
+} */
+span.weight, span.inch, span.pound, span.height {
     color: #bde085 !important;
 }
 form span {

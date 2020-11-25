@@ -74,3 +74,34 @@ svgBMI.append("circle")
     .attr("r", 130)
     .style("fill", "brown")
     .style("fill-opacity", ".2");
+
+const updatebmi = (bmidata) => {
+
+    console.log(bmidata);
+};
+
+var bmidata = [];
+
+db.collection('bmi')
+    .onSnapshot((res) => {
+        res.docChanges().forEach((change) => {
+            const doc = { ...change.doc.data(), id: change.doc.id };
+
+            switch (change.type) {
+                case 'added':
+                    bmidata.push(doc);
+                    break;
+                case 'modified':
+                    const index = bmidata.findIndex((item) => item.id == doc.id);
+                    bmidata[index] = doc;
+                    break;
+                case 'removed':
+                    bmidata = bmidata.filter((item) => item.id !== doc.id);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        updatebmi(bmidata);
+    });

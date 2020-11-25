@@ -87,7 +87,6 @@ const update = (data) => {
   x.domain(d3.extent(data, (d) => new Date(d.date)));
   y.domain([0, d3.max(data, (d) => d.distance)]);
 
-
   if (distFlag) {
 
     const dline = d3.line()
@@ -250,11 +249,11 @@ const update = (data) => {
     });
 
   // create axes
-  const xAxis = d3.axisBottom(x).ticks(4).tickFormat(d3.timeFormat('%b %d'));
+  const xAxis = d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat('%b %d'));
 
   const yAxis = d3
     .axisLeft(y)
-    .ticks(4);
+    .ticks(8);
 
   // call axes
   xAxisGroup.call(xAxis);
@@ -266,8 +265,6 @@ const update = (data) => {
     .attr('transform', 'rotate(-50)')
     .attr('text-anchor', 'end');
 };
-
-
 
 // Firestore
 var data = [];
@@ -296,3 +293,5 @@ db.collection('workout')
 
     update(data);
   });
+
+ 

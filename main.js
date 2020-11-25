@@ -101,7 +101,6 @@ bmiform.addEventListener('submit', e => {
 
     var bmiRef = db.collection("bmi").doc("1001");
 
-    // Set the "capital" field of the city 'DC'
     return bmiRef.update({
       height: height,
       weight: weight
