@@ -16,6 +16,12 @@ const bmierror = document.querySelector('.bmierror');
 const workoutsucess = document.querySelector('.workoutsucess');
 
 var activity = 'cycling';
+var chart = 'both';
+
+
+let distFlag = true;
+let calFlag = true;
+let bothFlag = true;
 
 actbtns.forEach(btn => {
   btn.addEventListener('click', e => {
@@ -28,6 +34,29 @@ actbtns.forEach(btn => {
   });
 });
 
+chartbtns.forEach(btn => {
+  btn.addEventListener('click', e => {
+    chart = e.target.dataset.chart;
+    chartbtns.forEach(btn => btn.classList.remove('Gactive'));
+    e.target.classList.add('Gactive');
+
+    if (chart === 'distance') {
+      distFlag = true;
+      calFlag = false;
+      bothFlag = false;
+    } else if (chart === 'calories') {
+      distFlag = false;
+      calFlag = true;
+      bothFlag = false;
+    } else {
+      distFlag = true;
+      calFlag = true;
+      bothFlag = true;
+    }
+    update(data);
+  });
+});
+
 // form submit
 workoutform.addEventListener('submit', e => {
   e.preventDefault()
@@ -36,11 +65,11 @@ workoutform.addEventListener('submit', e => {
 
   if (distance && calories) {
 
-    db.collection('workout').doc(new Date().toISOString().slice(0,10).toString()).set({
+    db.collection('workout').doc(new Date().toISOString().slice(0,10).toString() + "_" + activity).set({
       activity,
       distance,
       calories,
-      date: new Date(new Date().setHours(23,59,0,0)).toString()
+      date: new Date().toISOString().slice(0,10).toString()
     }).then(() => {
       workoutsucess.textContent = 'Entry saved'
       activityerror.textContent = '';

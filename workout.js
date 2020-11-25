@@ -3,16 +3,16 @@ const graphWidth = 560 - margin.right - margin.left;
 const graphHeight = 400 - margin.top - margin.bottom;
 
 const svgWorkout = d3
-    .select('.workout')
-    .append('svg')
-    .attr('width', graphWidth + margin.left + margin.right)
-    .attr('height', graphHeight + margin.top + margin.bottom);
+  .select('.workout')
+  .append('svg')
+  .attr('width', graphWidth + margin.left + margin.right)
+  .attr('height', graphHeight + margin.top + margin.bottom);
 
 const graphWorkout = svgWorkout
-    .append('g')
-    .attr('width', graphWidth)
-    .attr('height', graphHeight)
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+  .append('g')
+  .attr('width', graphWidth)
+  .attr('height', graphHeight)
+  .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
 // scales
 const x = d3.scaleTime().range([0, graphWidth]);
@@ -20,27 +20,14 @@ const y = d3.scaleLinear().range([graphHeight, 0]);
 
 // axes groups
 const xAxisGroup = graphWorkout
-    .append('g')
-    .attr('class', 'x-axis')
-    .attr('transform', `translate(0, ${graphHeight})`);
+  .append('g')
+  .attr('class', 'x-axis')
+  .attr('transform', `translate(0, ${graphHeight})`);
 
 const yAxisGroup = graphWorkout.append('g')
-    .attr('class', 'y-axis');
+  .attr('class', 'y-axis');
 
-// d3 line path generator
-const dline = d3.line()
-    //.curve(d3.curveCardinal)
-    .x(function (d) { return x(new Date(d.date)) })
-    .y(function (d) { return y(d.distance) });
-
-const cline = d3.line()
-    //.curve(d3.curveCardinal)
-    .x(function (d) { return x(new Date(d.date)) })
-    .y(function (d) { return y(d.calories) });
-
-// line path element
 const dlPath = graphWorkout.append('path');
-const clPath = graphWorkout.append('path');
 
 // create dotted line group and append to graph
 const dottedDLines = graphWorkout.append('g')
@@ -49,16 +36,18 @@ const dottedDLines = graphWorkout.append('g')
 
 // create x dotted line and append to dotted line group
 const xDottedDLine = dottedDLines.append('line')
-  .attr('stroke', '#aaa')
+  .attr('stroke', '#da693d')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
 // create y dotted line and append to dotted line group
 const yDottedDLine = dottedDLines.append('line')
-  .attr('stroke', '#aaa')
+  .attr('stroke', '#da693d')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
+// line path element
+const clPath = graphWorkout.append('path');
 
 // create dotted line group and append to graph
 const dottedCLines = graphWorkout.append('g')
@@ -67,158 +56,220 @@ const dottedCLines = graphWorkout.append('g')
 
 // create x dotted line and append to dotted line group
 const xDottedCLine = dottedCLines.append('line')
-  .attr('stroke', '#aaa')
+  .attr('stroke', '#2dd2e7')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
 // create y dotted line and append to dotted line group
 const yDottedCLine = dottedCLines.append('line')
-  .attr('stroke', '#aaa')
+  .attr('stroke', '#2dd2e7')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
+var tooltip = d3.select(".workout")
+    .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px")
+
 const update = (data) => {
 
-    data = data.filter(item => item.activity == activity);
+  data = data.filter(item => item.activity == activity);
 
-    // sort the data based on date objects
-    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+  // sort the data based on date objects
+  data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    // set scale domains
-    x.domain(d3.extent(data, (d) => new Date(d.date)));
-    y.domain([0, d3.max(data, (d) => d.distance)]);
+  // set scale domains
+  x.domain(d3.extent(data, (d) => new Date(d.date)));
+  y.domain([0, d3.max(data, (d) => d.distance)]);
 
-    // update path data
+
+  if (distFlag) {
+
+    const dline = d3.line()
+      .x(function (d) { return x(new Date(d.date)) })
+      .y(function (d) { return y(d.distance) });
+
     dlPath.data([data])
-        .attr('fill', 'none')
-        .attr('stroke', '#da693d')
-        .attr('stroke-width', '2')
-        .attr('d', dline);
+      .attr('fill', 'none')
+      .attr('stroke', '#da693d')
+      .attr('stroke-width', '2')
+      .attr('d', dline);
 
-    // update path data
-    clPath.data([data])
-    .attr('fill', 'none')
-    .attr('stroke', '#2dd2e7')
-    .attr('stroke-width', '2')
-    .attr('d', cline);
-
-    // create circles for points
     const dCircles = graphWorkout.selectAll('circle').data(data);
-    const cRect = graphWorkout.selectAll('rect').data(data);
-
-    // remove unwanted points
     dCircles.exit().remove();
-    cRect.exit().remove();
 
-    // update current points
     dCircles
-        .attr('r', '5')
-        .attr('cx', (d) => x(new Date(d.date)))
-        .attr('cy', (d) => y(d.distance))
-        .attr('fill', '#ccc');
+      .attr('r', '5')
+      .attr('cx', (d) => x(new Date(d.date)))
+      .attr('cy', (d) => y(d.distance))
+      .attr('fill', '#da693d');
 
-    // add new points
     dCircles
-        .enter()
-        .append('circle')
-        .attr('r', '4')
-        .attr('cx', (d) => x(new Date(d.date)))
-        .attr('cy', (d) => y(d.distance))
-        .attr('fill', '#ccc');
+      .enter()
+      .append('circle')
+      .attr('r', '5')
+      .attr('cx', (d) => x(new Date(d.date)))
+      .attr('cy', (d) => y(d.distance))
+      .attr('fill', '#da693d');
 
-    // update current points
-    cRect
-        .attr('width', '10')
-        .attr('height', '10')
-        .attr('x', (d) => x(new Date(d.date)))
-        .attr('y', (d) => y(d.calories))
-        .attr('fill', '#ccc');
+    if (!bothFlag) {
+      clPath.data([data])
+        .attr('d', '');
 
-    // add new points
-    cRect
-        .enter()
-        .append('rect')
-        .attr('width', '10')
-        .attr('height', '10')
-        .attr('x', (d) => x(new Date(d.date)))
-        .attr('y', (d) => y(d.calories))
-        .attr('fill', '#ccc');
+      graphWorkout.selectAll('ellipse').remove();
+    }
 
+  }
 
-    // add event listeners to circle (and show dotted lines)
- // add event listeners to circle (and show dotted lines)
- graphWorkout.selectAll('circle')
+  if (calFlag) {
+
+    const cline = d3.line()
+      .x(function (d) { return x(new Date(d.date)) })
+      .y(function (d) { return y(d.calories) });
+
+    clPath.data([data])
+      .attr('fill', 'none')
+      .attr('stroke', '#2dd2e7')
+      .attr('stroke-width', '2')
+      .attr('d', cline);
+
+    const cEclipse = graphWorkout.selectAll('ellipse').data(data);
+    cEclipse.exit().remove();
+
+    cEclipse
+      .attr('rx', '5')
+      .attr('ry', '5')
+      .attr('cx', (d) => x(new Date(d.date)))
+      .attr('cy', (d) => y(d.calories))
+      .attr('fill', '#2dd2e7');
+
+    cEclipse
+      .enter()
+      .append('ellipse')
+      .attr('rx', '5')
+      .attr('ry', '5')
+      .attr('cx', (d) => x(new Date(d.date)))
+      .attr('cy', (d) => y(d.calories))
+      .attr('fill', '#2dd2e7');
+
+    if (!bothFlag) {
+      dlPath.data([data])
+        .attr('d', '');
+
+      graphWorkout.selectAll('circle').remove();
+    }
+
+  }
+
+  graphWorkout.selectAll('circle')
     .on('mouseover', (d, i, n) => {
       d3.select(n[i])
         .transition().duration(100)
         .attr('r', 8)
         .attr('fill', '#fff');
-      // set x dotted line coords (x1,x2,y1,y2)
       xDottedDLine
         .attr('x1', x(new Date(d.date)))
         .attr('x2', x(new Date(d.date)))
         .attr('y1', graphHeight)
         .attr('y2', y(d.distance));
-      // set y dotted line coords (x1,x2,y1,y2)
       yDottedDLine
         .attr('x1', 0)
         .attr('x2', x(new Date(d.date)))
         .attr('y1', y(d.distance))
         .attr('y2', y(d.distance));
-      // show the dotted line group (opacity)
       dottedDLines.style('opacity', 1);
+      tooltip.style("opacity", 1)
     })
-    .on('mouseleave', (d,i,n) => {
+    .on('mousemove', (d, i, n) => {
+      tooltip
+      .html("Date: " + new Date(d.date).toISOString().slice(0,10).toString())
+      .style("left", d3.select(n[i]).attr("cx") + "px")
+      .style("top",  d3.select(n[i]).attr("cy") + "px")
+    })
+    .on('mouseleave', (d, i, n) => {
       d3.select(n[i])
         .transition().duration(100)
         .attr('r', 4)
-        .attr('fill', '#fff');
-      // hide the dotted line group (opacity)
+        .attr('fill', '#da693d');
       dottedDLines.style('opacity', 0)
+      tooltip.style("opacity", 0)
     });
 
-    // create axes
-    const xAxis = d3.axisBottom(x).ticks(4).tickFormat(d3.timeFormat('%b %d'));
+  graphWorkout.selectAll('ellipse')
+    .on('mouseover', (d, i, n) => {
+      d3.select(n[i])
+        .transition().duration(100)
+        .attr('r', 8)
+        .attr('fill', '#fff');
+      xDottedCLine
+        .attr('x1', x(new Date(d.date)))
+        .attr('x2', x(new Date(d.date)))
+        .attr('y1', graphHeight)
+        .attr('y2', y(d.calories));
+      yDottedCLine
+        .attr('x1', 0)
+        .attr('x2', x(new Date(d.date)))
+        .attr('y1', y(d.calories))
+        .attr('y2', y(d.calories));
+      dottedCLines.style('opacity', 1);
+    })
+    .on('mouseleave', (d, i, n) => {
+      d3.select(n[i])
+        .transition().duration(100)
+        .attr('r', 4)
+        .attr('fill', '#2dd2e7');
+      dottedCLines.style('opacity', 0)
+    });
 
-    const yAxis = d3
-        .axisLeft(y)
-        .ticks(4);
+  // create axes
+  const xAxis = d3.axisBottom(x).ticks(4).tickFormat(d3.timeFormat('%b %d'));
 
-    // call axes
-    xAxisGroup.call(xAxis);
-    yAxisGroup.call(yAxis);
+  const yAxis = d3
+    .axisLeft(y)
+    .ticks(4);
 
-    // rotate axis text
-    xAxisGroup
-        .selectAll('text')
-        .attr('transform', 'rotate(-50)')
-        .attr('text-anchor', 'end');
+  // call axes
+  xAxisGroup.call(xAxis);
+  yAxisGroup.call(yAxis);
+
+  // rotate axis text
+  xAxisGroup
+    .selectAll('text')
+    .attr('transform', 'rotate(-50)')
+    .attr('text-anchor', 'end');
 };
+
+
 
 // Firestore
 var data = [];
 
 db.collection('workout')
-    .orderBy('date')
-    .onSnapshot((res) => {
-        res.docChanges().forEach((change) => {
-            const doc = { ...change.doc.data(), id: change.doc.id };
+  .orderBy('date')
+  .onSnapshot((res) => {
+    res.docChanges().forEach((change) => {
+      const doc = { ...change.doc.data(), id: change.doc.id };
 
-            switch (change.type) {
-                case 'added':
-                    data.push(doc);
-                    break;
-                case 'modified':
-                    const index = data.findIndex((item) => item.id == doc.id);
-                    data[index] = doc;
-                    break;
-                case 'removed':
-                    data = data.filter((item) => item.id !== doc.id);
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        update(data);
+      switch (change.type) {
+        case 'added':
+          data.push(doc);
+          break;
+        case 'modified':
+          const index = data.findIndex((item) => item.id == doc.id);
+          data[index] = doc;
+          break;
+        case 'removed':
+          data = data.filter((item) => item.id !== doc.id);
+          break;
+        default:
+          break;
+      }
     });
+
+    update(data);
+  });

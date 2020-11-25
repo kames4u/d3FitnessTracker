@@ -1,7 +1,7 @@
 .nav {
   background: #546e7a;
 }
-button {
+.activityBtn {
   background: #546e7a !important;
   margin-bottom: 20px;
   width: 100%;
@@ -20,7 +20,7 @@ button.active {
   background: #da693d !important;
 }
 button.Gactive {
-    background: #da693d !important;
+    background: #47dd6c !important;
 }
 span.calories {
     color: #2dd2e7 !important;
