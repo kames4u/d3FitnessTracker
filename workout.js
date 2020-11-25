@@ -183,21 +183,29 @@ const update = (data) => {
         .attr('y1', y(d.distance))
         .attr('y2', y(d.distance));
       dottedDLines.style('opacity', 1);
-      tooltip.style("opacity", 1)
-    })
-    .on('mousemove', (d, i, n) => {
-      tooltip
-      .html("Date: " + new Date(d.date).toISOString().slice(0,10).toString())
-      .style("left", d3.select(n[i]).attr("cx") + "px")
-      .style("top",  d3.select(n[i]).attr("cy") + "px")
+      //tooltip.style("opacity", 1)
+
+      var xPosition = parseFloat(d3.select(n[i]).attr("cx")) + 125 ;
+      var yPosition = parseFloat(d3.select(n[i]).attr("cy"));
+
+      d3.select("#dtooltip")
+        .style("left", xPosition + "px")
+        .style("top", yPosition + "px")	
+        .select("#ttdDate").text(new Date(d.date).toISOString().slice(0,10).toString());
+     
+      d3.select("#dtooltip")
+      .classed("dhidden", false)
+      .select("#ttdDist").text(d.distance);
     })
     .on('mouseleave', (d, i, n) => {
       d3.select(n[i])
         .transition().duration(100)
-        .attr('r', 4)
+        .attr('r', 5)
         .attr('fill', '#da693d');
       dottedDLines.style('opacity', 0)
-      tooltip.style("opacity", 0)
+      //tooltip.style("opacity", 0)
+
+      d3.select("#dtooltip").classed("dhidden", true);
     });
 
   graphWorkout.selectAll('ellipse')
@@ -217,13 +225,28 @@ const update = (data) => {
         .attr('y1', y(d.calories))
         .attr('y2', y(d.calories));
       dottedCLines.style('opacity', 1);
+
+      var xPosition = parseFloat(d3.select(n[i]).attr("cx")) + 125 ;
+      var yPosition = parseFloat(d3.select(n[i]).attr("cy"));
+
+      d3.select("#ctooltip")
+        .style("left", xPosition + "px")
+        .style("top", yPosition + "px")	
+        .select("#ttcDate").text(new Date(d.date).toISOString().slice(0,10).toString());
+     
+      d3.select("#ctooltip")
+      .classed("chidden", false)
+      .select("#ttcCal").text(d.calories);
     })
     .on('mouseleave', (d, i, n) => {
       d3.select(n[i])
         .transition().duration(100)
-        .attr('r', 4)
+        .attr('r', 5)
         .attr('fill', '#2dd2e7');
       dottedCLines.style('opacity', 0)
+
+      d3.select("#ctooltip").classed("chidden", true);
+
     });
 
   // create axes
