@@ -1,6 +1,10 @@
 var width = 600,
     height = 500;
 
+const spanbmi = document.querySelector('.spanbmi');
+const hresult = document.querySelector('.hresult');
+const wresult = document.querySelector('.wresult');
+
 var svgBMI = d3.select(".bmi").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -11,7 +15,7 @@ svgBMI.append("circle")
     .attr("cy", 200)
     .attr("r", 150)
     .style("fill", "white")
-    .style("fill-opacity", ".7");
+    .style("fill-opacity", ".4");
 
 svgBMI.append("circle")
     .attr("cx", 280)
@@ -31,30 +35,6 @@ const face = svgBMI.append('g')
 const mouth = svgBMI.append('g')
     .attr('transform', `translate(340, 200)`);
 
-mouth
-    .append('path')
-    .attr('d', d3.arc()({
-        innerRadius: 75,
-        outerRadius: 90,
-        startAngle: Math.PI / .85,
-        endAngle: Math.PI * 3 / 4
-    }))
-    .style("fill", "white");
-
-// face
-//     .append('rect')
-//       .attr('x', 20)
-//       .attr('y', 20)
-//       .attr('width', 50)
-//       .attr('height', 20)
-//       .style("fill", "white");
-
-// face.append("circle")
-//     .attr("cx", 45)
-//     .attr("cy", 0)
-//     .attr("r", 30)
-//     .style("fill", "white");
-
 // svgBMI.append("circle")
 //     .attr("cx", 350)
 //     .attr("cy", 200)
@@ -69,21 +49,12 @@ mouth
 //     .style("fill", "green")
 //     .style("fill-opacity", ".2");
 
-svgBMI.append("circle")
-    .attr("cx", 350)
-    .attr("cy", 200)
-    .attr("r", 130)
-    .style("fill", "brown")
-    .style("fill-opacity", ".2");
+
 
 const updatebmi = (bmidata) => {
-    console.log(bmidata[0]);
 
-    height = bmidata[0].height;
-    weight = bmidata[0].weight;
-
-    console.log("Height: " + height);
-    console.log("Weight: " + weight);
+    let height = bmidata[0].height;
+    let weight = bmidata[0].weight;
 
     // Obese => 30
     // Overweight = 25.0 to 29.9
@@ -92,23 +63,91 @@ const updatebmi = (bmidata) => {
 
     //Formula: weight(pounds) * 703 and divide by height (inches) squared.
 
-    bmiVal = (weight * 703) / (height * height);
+    let bmiVal = (weight * 703) / (height * height);
 
-    console.log("bmi: " + bmiVal);
+    let bmiStat = "Normal"
+    let bmiCol = "green"
 
-    bmiStat = "Normal"
-
-    if (bmiVal < 18.5){
+    if (bmiVal < 18.5) {
         bmiStat = "Underweight"
-    }else if (bmiVal <= 24.9 && bmiVal >= 18.5){
+        bmiCol = "grey"
+
+        if (bmiVal < 10){
+            bmiVal = 10
+        }
+
+        face
+            .append('rect')
+            .attr('x', 20)
+            .attr('y', 20)
+            .attr('width', 50)
+            .attr('height', 20)
+            .style("fill", "white");
+
+        mouth.selectAll('path').remove();
+
+    } else if (bmiVal <= 24.9 && bmiVal >= 18.5) {
         bmiStat = "Normal"
-    }else if (bmiVal <= 29.9 && bmiVal >= 25){
+        bmiCol = "green"
+
+        mouth
+            .append('path')
+            .attr('d', d3.arc()({
+                innerRadius: 75,
+                outerRadius: 90,
+                startAngle: Math.PI / .85,
+                endAngle: Math.PI * 3 / 4
+            }))
+            .style("fill", "white");
+
+        face.selectAll('rect').remove();
+
+    } else if (bmiVal <= 29.9 && bmiVal >= 25) {
         bmiStat = "Overweight"
-    }else if(bmiVal >= 30){
+        bmiCol = "orange"
+
+        face
+            .append('rect')
+            .attr('x', 20)
+            .attr('y', 20)
+            .attr('width', 50)
+            .attr('height', 20)
+            .style("fill", "white");
+
+        mouth.selectAll('path').remove();
+
+    } else if (bmiVal >= 30) {
         bmiStat = "Obese"
+        bmiCol = "red"
+
+        if (bmiVal > 35){
+            bmiVal = 35
+        }
+
+        face
+            .append('rect')
+            .attr('x', 20)
+            .attr('y', 20)
+            .attr('width', 50)
+            .attr('height', 20)
+            .style("fill", "white");
+
+        mouth.selectAll('path').remove();
     }
 
-    console.log(bmiStat);
+    hresult.textContent = height;
+    wresult.textContent = weight;
+    spanbmi.textContent = bmiStat;
+
+    svgBMI.selectAll("ellipse").remove();
+
+    svgBMI.append("ellipse")
+        .attr("cx", 350)
+        .attr("cy", 200)
+        .attr("rx", 105 + (bmiVal * 2))
+        .attr("ry", 105 + (bmiVal * 2))
+        .style("fill", bmiCol)
+        .style("fill-opacity", ".5");
 
 };
 

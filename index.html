@@ -49,8 +49,6 @@
                 <p class="flow-text white-text ">How much <span class="calories">calories</span> burned?</p>
                 <input class="grey-text caloriesIP" type="text" id="calories" placeholder="Feed data and hit enter" />
                 <p class="center red-text calorieserror text-darken-5"></p>
-                <p class="center green-text workoutsucess text-darken-5"></p>
-
                 <div class="row">
                     <div class="col s4 offset-s4">
                         <br>
@@ -91,12 +89,19 @@
         </div>
         <div class="nav z-depth-1">
             <div class="section center">
-                <h6 class="white-text">Body Mass Index (BMI)</h6>
+                <h6 class="white-text">Body Mass Index (BMI) </h6>
             </div>
         </div>
         <div class="row">
-            <div class="col s6 m4 pull-m2">
-                <div class="bmi"></div>
+            <p class="flow-text white-text center">
+                Your <span class="height">height</span> : <span class="hresult"> 66 </span> inches 
+                || <span class="weight">weight</span> : <span class="wresult"> 160 </span> pounds
+                || <span class="height">BMI</span> : <span class="spanbmi"></span> 
+            </p>
+        </div>
+        <div class="row">
+            <div class="col s6 m4 pull-m2 ">
+                    <div class="bmi"></div>
             </div>
             <form class="col s12 m6 push-m2 bmiform">
                 <br>

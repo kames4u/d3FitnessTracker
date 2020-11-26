@@ -13,8 +13,6 @@ const activityerror = document.querySelector('.activityerror');
 const calorieserror = document.querySelector('.calorieserror');
 const bmierror = document.querySelector('.bmierror');
 
-const workoutsucess = document.querySelector('.workoutsucess');
-
 var activity = 'cycling';
 var chart = 'both';
 
@@ -71,7 +69,6 @@ workoutform.addEventListener('submit', e => {
       calories,
       date: new Date().toISOString().slice(0,10).toString()
     }).then(() => {
-      workoutsucess.textContent = 'Entry saved'
       activityerror.textContent = '';
       calorieserror.textContent = '';
       distinput.value = '';
