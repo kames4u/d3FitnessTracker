@@ -14,11 +14,9 @@ const graphWorkout = svgWorkout
   .attr('height', graphHeight)
   .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-// scales
 const x = d3.scaleTime().range([0, graphWidth]);
 const y = d3.scaleLinear().range([graphHeight, 0]);
 
-// axes groups
 const xAxisGroup = graphWorkout
   .append('g')
   .attr('class', 'x-axis')
@@ -29,38 +27,31 @@ const yAxisGroup = graphWorkout.append('g')
 
 const dlPath = graphWorkout.append('path');
 
-// create dotted line group and append to graph
 const dottedDLines = graphWorkout.append('g')
   .attr('class', 'lines')
   .style('opacity', 0);
 
-// create x dotted line and append to dotted line group
 const xDottedDLine = dottedDLines.append('line')
   .attr('stroke', '#da693d')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
-// create y dotted line and append to dotted line group
 const yDottedDLine = dottedDLines.append('line')
   .attr('stroke', '#da693d')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
-// line path element
 const clPath = graphWorkout.append('path');
 
-// create dotted line group and append to graph
 const dottedCLines = graphWorkout.append('g')
   .attr('class', 'lines')
   .style('opacity', 0);
 
-// create x dotted line and append to dotted line group
 const xDottedCLine = dottedCLines.append('line')
   .attr('stroke', '#2dd2e7')
   .attr('stroke-width', 1)
   .attr('stroke-dasharray', 4);
 
-// create y dotted line and append to dotted line group
 const yDottedCLine = dottedCLines.append('line')
   .attr('stroke', '#2dd2e7')
   .attr('stroke-width', 1)
@@ -80,10 +71,8 @@ const update = (data) => {
 
   data = data.filter(item => item.activity == activity);
 
-  // sort the data based on date objects
   data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  // set scale domains
   x.domain(d3.extent(data, (d) => new Date(d.date)));
   y.domain([0, d3.max(data, (d) => d.distance)]);
 
@@ -248,18 +237,15 @@ const update = (data) => {
 
     });
 
-  // create axes
   const xAxis = d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat('%b %d'));
 
   const yAxis = d3
     .axisLeft(y)
     .ticks(8);
 
-  // call axes
   xAxisGroup.call(xAxis);
   yAxisGroup.call(yAxis);
 
-  // rotate axis text
   xAxisGroup
     .selectAll('text')
     .attr('transform', 'rotate(-50)')

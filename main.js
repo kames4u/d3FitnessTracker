@@ -12,10 +12,10 @@ const weightinput = document.querySelector('.weightIP');
 const activityerror = document.querySelector('.activityerror');
 const calorieserror = document.querySelector('.calorieserror');
 const bmierror = document.querySelector('.bmierror');
+const calsection = document.querySelector('.calsec');
 
 var activity = 'cycling';
 var chart = 'both';
-
 
 let distFlag = true;
 let calFlag = true;
@@ -28,6 +28,11 @@ actbtns.forEach(btn => {
     e.target.classList.add('active');
     distinput.setAttribute('id', activity);
     formAct.textContent = activity;
+    if(activity === 'sleeping'){
+      calsection.style.display = "none";
+    }else{
+      calsection.style.display = "block";
+    }
     update(data)
   });
 });
@@ -59,7 +64,13 @@ chartbtns.forEach(btn => {
 workoutform.addEventListener('submit', e => {
   e.preventDefault()
   const distance = parseInt(distinput.value);
-  const calories = parseInt(caloriesinput.value);
+  let calories = 0;
+
+  if (activity === 'sleeping'){
+    calories = 500;
+  }else{
+    calories = parseInt(caloriesinput.value);
+  }
 
   if (distance && calories) {
 
@@ -110,17 +121,6 @@ bmiform.addEventListener('submit', e => {
       .catch(function (error) {
         console.error("Error updating document: ", error);
       });
-
-    // db.collection('bmi').update({
-    //   id,
-    //   height,
-    //   weight,
-    //   date: new Date().toString()
-    // }).then(() => {
-    //   bmierror.textContent = '';
-    //   heightinput.value = '';
-    //   weightinput.value = '';
-    // }).catch(err => console.log(err));
   } else {
     bmierror.textContent = 'Please enter height and weight'
   }
