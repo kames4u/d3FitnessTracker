@@ -11,29 +11,29 @@ var svgBMI = d3.select(".bmi").append("svg")
 
 
 svgBMI.append("circle")
-    .attr("cx", 350)
+    .attr("cx", 200)
     .attr("cy", 200)
     .attr("r", 150)
     .style("fill", "white")
     .style("fill-opacity", ".4");
 
 svgBMI.append("circle")
-    .attr("cx", 280)
+    .attr("cx", 130)
     .attr("cy", 160)
     .attr("r", 20)
     .style("fill", "white");
 
 svgBMI.append("circle")
-    .attr("cx", 420)
+    .attr("cx", 270)
     .attr("cy", 160)
     .attr("r", 20)
     .style("fill", "white");
 
 const face = svgBMI.append('g')
-    .attr('transform', `translate(300, 250)`);
+    .attr('transform', `translate(160, 250)`);
 
 const mouth = svgBMI.append('g')
-    .attr('transform', `translate(340, 200)`);
+    .attr('transform', `translate(200, 200)`);
 
 // svgBMI.append("circle")
 //     .attr("cx", 350)
@@ -142,7 +142,7 @@ const updatebmi = (bmidata) => {
     svgBMI.selectAll("ellipse").remove();
 
     svgBMI.append("ellipse")
-        .attr("cx", 350)
+        .attr("cx", 200)
         .attr("cy", 200)
         .attr("rx", 105 + (bmiVal * 2))
         .attr("ry", 105 + (bmiVal * 2))
