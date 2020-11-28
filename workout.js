@@ -1,5 +1,5 @@
 const margin = { top: 40, right: 20, bottom: 50, left: 100 };
-const graphWidth = 560 - margin.right - margin.left;
+const graphWidth = 500 - margin.right - margin.left;
 const graphHeight = 400 - margin.top - margin.bottom;
 
 const svgWorkout = d3
